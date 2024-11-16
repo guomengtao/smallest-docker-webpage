@@ -7,11 +7,6 @@ global:
 entryPoints:
   web:
     address: ":80"
-    http:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
   websecure:
     address: ":443"
 
@@ -31,11 +26,6 @@ providers:
     exposedByDefault: false
     network: traefik_public
 
-# API and dashboard configuration (optional but helpful for debugging)
-api:
-  dashboard: true
-  insecure: true
-
-# Log configuration for debugging
+# Log configuration
 log:
-  level: DEBUG
+  level: INFO

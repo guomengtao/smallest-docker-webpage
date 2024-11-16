@@ -19,16 +19,15 @@ A minimal Docker webpage setup with Traefik reverse proxy and HTTPS support.
    # Create and enter global Traefik directory
    mkdir ~/traefik-proxy && cd ~/traefik-proxy
    
-   # Copy Traefik configuration files
-   curl -O https://raw.githubusercontent.com/guomengtao/smallest-docker-webpage/main/traefik-compose.yml
-   curl -O https://raw.githubusercontent.com/guomengtao/smallest-docker-webpage/main/traefik.yml
+   # Create .env file for Traefik with required variables
+   cat > .env << EOL
+   EMAIL=your-email@example.com
+   DOMAIN=your-domain.com
+   EOL
    
    # Create network and certificate storage
    docker network create traefik_public
    touch acme.json && chmod 600 acme.json
-   
-   # Create .env file for Traefik
-   echo "EMAIL=your-email@example.com" > .env
    
    # Start global Traefik
    docker-compose -f traefik-compose.yml up -d
