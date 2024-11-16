@@ -17,25 +17,28 @@ services:
       - caddy_net
     restart: unless-stopped
     labels:
-      # Global redirect to HTTPS
       caddy.global: "http:// { 
         redir https://{host}{uri} permanent
       }"
+      com.docker.compose.project: "${DOCKER_PROJECT_NAME}"
 
   app:
     image: nginx
-    container_name: ${DOCKER_PROJECT_NAME}
+    container_name: ${DOCKER_PROJECT_NAME}-app
     volumes:
       - ./app:/usr/share/nginx/html
     labels:
       caddy: ${DOMAIN}
       caddy.reverse_proxy: "{{upstreams 80}}"
+      com.docker.compose.project: "${DOCKER_PROJECT_NAME}"
     networks:
       - caddy_net
 
 volumes:
   caddy_data:
+    name: ${DOCKER_PROJECT_NAME}_caddy_data
   caddy_config:
+    name: ${DOCKER_PROJECT_NAME}_caddy_config
 
 networks:
   caddy_net:
