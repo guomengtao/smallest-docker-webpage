@@ -1,21 +1,42 @@
 version: '3.8'
 
 services:
-  webpage:
-    image: nginx:alpine
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:2
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - CADDY_INGRESS_NETWORKS=caddy_net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - caddy_net
+    restart: unless-stopped
+    labels:
+      # Global redirect to HTTPS
+      caddy.global: "http:// { 
+        redir https://{host}{uri} permanent
+      }"
+
+  app:
+    image: nginx
     container_name: ${DOCKER_PROJECT_NAME}
-    restart: always
     volumes:
       - ./app:/usr/share/nginx/html
-    networks:
-      - traefik-proxy
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.webpage.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.webpage.entrypoints=websecure"
-      - "traefik.http.routers.webpage.tls.certresolver=letsencrypt"
-      - "traefik.http.services.webpage.loadbalancer.server.port=80"
+      caddy: ${DOMAIN}
+      caddy.reverse_proxy: "{{upstreams 80}}"
+    networks:
+      - caddy_net
+
+volumes:
+  caddy_data:
+  caddy_config:
 
 networks:
-  traefik-proxy:
+  caddy_net:
     external: true

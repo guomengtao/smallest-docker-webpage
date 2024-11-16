@@ -8,4 +8,8 @@ acme.json
 
 # IDE files
 .idea/
-.vscode/ 
+.vscode/
+
+# Caddy files
+caddy_data/
+caddy_config/ 
