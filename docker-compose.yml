@@ -11,6 +11,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.${DOCKER_PROJECT_NAME}.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.${DOCKER_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.${DOCKER_PROJECT_NAME}.tls.certresolver=letsencrypt"
       - "traefik.http.services.${DOCKER_PROJECT_NAME}.loadbalancer.server.port=80"
 
 networks:

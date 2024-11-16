@@ -1,3 +1,9 @@
+# Global configuration
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+# Entry points configuration
 entryPoints:
   web:
     address: ":80"
@@ -9,6 +15,7 @@ entryPoints:
   websecure:
     address: ":443"
 
+# SSL configuration with Let's Encrypt
 certificatesResolvers:
   letsencrypt:
     acme:
@@ -17,8 +24,18 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
 
+# Docker provider configuration
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: traefik_public 
+    network: traefik_public
+
+# API and dashboard configuration (optional but helpful for debugging)
+api:
+  dashboard: true
+  insecure: true
+
+# Log configuration for debugging
+log:
+  level: DEBUG
