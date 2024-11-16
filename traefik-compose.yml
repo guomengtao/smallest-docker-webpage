@@ -1,21 +1,30 @@
-version: '3'
+version: '3.8'
 
 services:
   traefik:
     image: traefik:v2.10
+    container_name: traefik
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.yml:/etc/traefik/traefik.yml
-      - ./acme.json:/acme.json
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${PWD}/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ${PWD}/letsencrypt:/letsencrypt
     networks:
-      - traefik_public
-    env_file:
-      - .env
-    restart: always
+      - traefik-proxy
+    labels:
+      - "traefik.enable=true"
+      # Dashboard
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
 
 networks:
-  traefik_public:
+  traefik-proxy:
     external: true 

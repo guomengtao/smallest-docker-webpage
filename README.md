@@ -79,5 +79,4 @@ labels:
   - "traefik.http.routers.${DOCKER_PROJECT_NAME}.tls=true"
   - "traefik.http.services.${DOCKER_PROJECT_NAME}.loadbalancer.server.port=80"
 ```
-
 [中文文档](README_CN.md)

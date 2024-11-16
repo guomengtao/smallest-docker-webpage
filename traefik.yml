@@ -7,15 +7,23 @@ global:
 entryPoints:
   web:
     address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
   websecure:
     address: ":443"
+    http:
+      tls:
+        certResolver: letsencrypt
 
 # SSL configuration with Let's Encrypt
 certificatesResolvers:
   letsencrypt:
     acme:
       email: ${EMAIL}
-      storage: acme.json
+      storage: "/acme.json"
       httpChallenge:
         entryPoint: web
 
@@ -24,8 +32,13 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: traefik_public
+    network: traefik-proxy
+
+# API and Dashboard configuration
+api:
+  dashboard: true
+  insecure: false
 
 # Log configuration
 log:
-  level: INFO
+  level: DEBUG
