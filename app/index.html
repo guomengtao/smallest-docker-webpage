@@ -3,30 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smallest Docker Webpage</title>
+    <title>Welcome to ${DOMAIN}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 0 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Smallest Docker Webpage</h1>
-        <p>Running with Docker + Traefik</p>
-    </div>
+    <h1>Welcome to Caddy Docker Proxy</h1>
+    <p>This page is served via HTTPS using Caddy's automatic SSL.</p>
+    <p>Domain: ${DOMAIN}</p>
+    <p>Version: 1.0.1</p>
 </body>
-</html> 
+</html>
