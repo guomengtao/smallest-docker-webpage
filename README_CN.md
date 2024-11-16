@@ -1,5 +1,17 @@
 # 最小Docker网页项目
 
+[![Version](https://img.shields.io/github/v/tag/guomengtao/smallest-docker-webpage)](https://github.com/guomengtao/smallest-docker-webpage/tags)
+
+一个基于Docker的最小网页设置，包含Traefik反向代理和HTTPS支持。
+
+## 版本历史
+
+- v1.0.0: 首次发布，支持自动SSL证书
+  - Traefik反向代理集成
+  - 自动HTTPS/SSL证书
+  - 多项目支持
+  - 详细文档
+
 ## 前置条件
 
 1. 全局Traefik设置（如果尚未运行）：
