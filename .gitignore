@@ -1,0 +1,11 @@
+# Environment and SSL
+.env
+acme.json
+
+# System files
+.DS_Store
+*.log
+
+# IDE files
+.idea/
+.vscode/ 
