@@ -6,15 +6,14 @@ A Docker-based reverse proxy setup using Caddy with automatic HTTPS.
 
 - Automatic HTTPS with Let's Encrypt
 - Docker integration
-- Cloudflare DNS support
-- Multiple domain handling
+- Project name based on directory name
+- Automatic domain configuration (project-name.1panel.rinuo.com)
 
 ## Prerequisites
 
 - Docker and Docker Compose
 - Domain name(s) with DNS pointed to your server
-- Cloudflare API token (if using Cloudflare DNS)
 
-## Setup
+## Quick Start
 
-1. Create network:
+1. Clone and enter the repository:

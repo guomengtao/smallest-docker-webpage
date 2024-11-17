@@ -3,7 +3,7 @@ version: '3.8'
 services:
   caddy:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
-    container_name:  ${DOCKER_PROJECT_NAME}
+    container_name: ${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}
     ports:
       - "80:80"
       - "443:443"
@@ -20,25 +20,26 @@ services:
       caddy.global: "http:// { 
         redir https://{host}{uri} permanent
       }"
-      com.docker.compose.project: "${DOCKER_PROJECT_NAME}"
+      com.docker.compose.project: "${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}"
+      caddy: "${DOMAIN:-${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}.1panel.rinuo.com}"
 
   app:
     image: nginx
-    container_name: ${DOCKER_PROJECT_NAME}-app
+    container_name: ${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}-app
     volumes:
       - ./app:/usr/share/nginx/html
     labels:
-      caddy: ${DOMAIN}
+      caddy: "${DOMAIN:-${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}.1panel.rinuo.com}"
       caddy.reverse_proxy: "{{upstreams 80}}"
-      com.docker.compose.project: "${DOCKER_PROJECT_NAME}"
+      com.docker.compose.project: "${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}"
     networks:
       - caddy_net
 
 volumes:
   caddy_data:
-    name: ${DOCKER_PROJECT_NAME}_caddy_data
+    name: ${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}_caddy_data
   caddy_config:
-    name: ${DOCKER_PROJECT_NAME}_caddy_config
+    name: ${COMPOSE_PROJECT_NAME:-$(basename $(pwd))}_caddy_config
 
 networks:
   caddy_net:
